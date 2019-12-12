@@ -8,12 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.movie.Database.DatabaseHelper;
+import com.example.movie.Model.User;
 import com.example.movie.R;
+
+import java.util.List;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class LoginFragment extends Fragment {
+    DatabaseHelper db;
     public LoginFragment(){}
 
     @Override
@@ -24,7 +29,7 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
-
+        db = new DatabaseHelper(getContext());
         final EditText et_name = view.findViewById(R.id.et_username);
         final EditText et_password = view.findViewById(R.id.et_password);
 
@@ -44,11 +49,31 @@ public class LoginFragment extends Fragment {
                     String username = et_name.getText().toString();
                     String password = et_password.getText().toString();
 
-                    HomeFragment homeFragment = new HomeFragment();
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.container,homeFragment);
-                    ft.addToBackStack(null);
-                    ft.commit();
+                    final List<User> userList = db.getAllUsers();
+                    int b = 0;
+
+                    for (User u : userList)
+                    {
+                        if (u.getName().equals(username) && u.getPassword().equals(password))
+                        {
+                            b = 1;
+                        }
+                    }
+
+                    if (b == 1)
+                    {
+                        HomeFragment homeFragment = new HomeFragment();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.container,homeFragment);
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(),"User not registered",Toast.LENGTH_SHORT).show();
+                    }
+
+
                 }
             }
         });

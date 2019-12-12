@@ -7,13 +7,14 @@
     android:layout_height="match_parent"
     tools:context="com.example.movie.Fragments.LoginFragment">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+
         <TextView
             android:layout_marginTop="25dp"
             android:layout_width="match_parent"
@@ -96,6 +97,7 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="15dp"
             />
-        </ScrollView>
+
     </LinearLayout>
+    </ScrollView>
 </FrameLayout>

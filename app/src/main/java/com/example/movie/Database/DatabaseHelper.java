@@ -85,6 +85,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return u;
     }
+    public void deleteAllUser()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_USER );
+    }
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
         String selectQuery = "SELECT  * FROM " + TABLE_USER;
@@ -116,6 +121,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(USER_PHOTO,user.getImage_path());
+        values.put(USER_PW, user.getPassword());
+
+        // updating row
+        return db.update(TABLE_USER, values, USER_ID + " = ?",
+                new String[] { String.valueOf(user.getUser_id()) });
+    }
+
+    public int updateUserPhoto(User user) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(USER_PHOTO,user.getImage_path());
+
+        // updating row
+        return db.update(TABLE_USER, values, USER_ID + " = ?",
+                new String[] { String.valueOf(user.getUser_id()) });
+    }
+    public int updateUserPassword(User user) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
         values.put(USER_PW, user.getPassword());
 
         // updating row

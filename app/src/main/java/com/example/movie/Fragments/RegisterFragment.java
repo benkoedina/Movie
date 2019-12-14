@@ -56,8 +56,11 @@ public class RegisterFragment extends Fragment {
         bt_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent gallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(gallery,RESULT_LOAD_IMAGE);
+
+
+
             }
         });
 
@@ -94,7 +97,7 @@ public class RegisterFragment extends Fragment {
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data!=null)
         {
             Uri selectedImage = data.getData();
-            path = getPath(selectedImage);
+            path = selectedImage.toString();
             image.setImageURI(selectedImage);
         }
     }
@@ -110,11 +113,5 @@ public class RegisterFragment extends Fragment {
         }
         return id;
     }
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getActivity().getApplicationContext().getContentResolver().query(uri, projection, null,null,null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
+
 }

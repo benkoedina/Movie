@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import com.example.movie.Database.DatabaseHelper;
 import com.example.movie.Fragments.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +15,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DatabaseHelper db;
+        db = new DatabaseHelper(this);
+       // db.deleteAllUser();
         if (savedInstanceState == null)
         {
             FragmentManager fm = getSupportFragmentManager();

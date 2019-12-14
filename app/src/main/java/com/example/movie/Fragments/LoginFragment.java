@@ -51,18 +51,23 @@ public class LoginFragment extends Fragment {
 
                     final List<User> userList = db.getAllUsers();
                     int b = 0;
-
+                   int id=-1;
                     for (User u : userList)
                     {
                         if (u.getName().equals(username) && u.getPassword().equals(password))
                         {
                             b = 1;
+                            id = u.getUser_id();
+
                         }
                     }
 
                     if (b == 1)
                     {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id",id);
                         HomeFragment homeFragment = new HomeFragment();
+                        homeFragment.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.replace(R.id.container,homeFragment);
                         ft.addToBackStack(null);

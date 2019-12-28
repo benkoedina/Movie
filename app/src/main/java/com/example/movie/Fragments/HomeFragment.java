@@ -1,20 +1,46 @@
 package com.example.movie.Fragments;
-
+import android.app.ProgressDialog;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+
+import com.example.movie.Adapter.MoviesAdapter;
+import com.example.movie.Adapter.MoviesRepository;
+import com.example.movie.BuildConfig;
+import com.example.movie.Database.DatabaseHelper;
+import com.example.movie.Interfaces.OnGetMoviesCallBack;
+import com.example.movie.Model.Movie;
+import com.example.movie.Model.MovieResponse;
 import com.example.movie.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    MoviesAdapter adapter;
+    private MoviesRepository moviesRepository;
 
     public HomeFragment() {
     };
@@ -27,10 +53,35 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        final View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         Bundle bundle = this.getArguments();
         final int id= bundle.getInt("id");
+
+        recyclerView = view.findViewById(R.id.movies_list_rv);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        moviesRepository = MoviesRepository.getInstance();
+        Log.d("FOS","fos" + moviesRepository);
+        moviesRepository.getMovies(new OnGetMoviesCallBack() {
+            @Override
+            public void onSuccess(List<Movie> movies) {
+                Log.d("FOS","fosSiker" );
+                adapter = new MoviesAdapter(movies);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onError() {
+                Toast.makeText(getContext(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
+                Log.d("FOS","fosFos" );
+            }
+        });
+
+
+
 
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.action_home);
@@ -62,4 +113,6 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+
+
 }

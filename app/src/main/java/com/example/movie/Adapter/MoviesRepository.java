@@ -27,26 +27,25 @@ public class MoviesRepository {
 
     public static MoviesRepository getInstance() {
         if (repository == null) {
-            Log.d("FOS","fos");
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
             repository = new MoviesRepository(retrofit.create(TMDbApi.class));
-            Log.d("FOS","fos" + repository.toString());
-            Log.d("FOS","fos" + retrofit);
+
         }
         return repository;
     }
 
     public void getMovies(final OnGetMoviesCallBack callback) {
-        Log.d("FOS","fos");
+
         api.getPopularMovies("e847333c689f1c2cfb34e96de790043e", LANGUAGE, 1).enqueue(new Callback<MovieResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                         if (response.isSuccessful()) {
-                            Log.d("FOS","fosSuccess");
+
                             MovieResponse moviesResponse = response.body();
                             if (moviesResponse != null && moviesResponse.getResults() != null) {
                                 callback.onSuccess(moviesResponse.getResults());
@@ -55,7 +54,7 @@ public class MoviesRepository {
                             }
                         } else {
                             callback.onError();
-                            Log.d("FOS","fosFailure");
+
                         }
                     }
 
@@ -63,9 +62,9 @@ public class MoviesRepository {
                     public void onFailure(Call<MovieResponse> call, Throwable t) {
                         callback.onError();
                        // Log.d("FOS","fos");
-                        Log.d("FOS","fosFailureFailure");
+
                     }
                 });
-        Log.d("FOS","fos");
+
     }
 }

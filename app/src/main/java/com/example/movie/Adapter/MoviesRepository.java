@@ -61,7 +61,6 @@ public class MoviesRepository {
                     @Override
                     public void onFailure(Call<MovieResponse> call, Throwable t) {
                         callback.onError();
-                       // Log.d("FOS","fos");
 
                     }
                 });

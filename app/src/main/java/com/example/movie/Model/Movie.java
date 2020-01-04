@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+//movie model from JSON
 public class Movie {
     @SerializedName("popularity")
     @Expose

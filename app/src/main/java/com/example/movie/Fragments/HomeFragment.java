@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 import com.example.movie.Adapter.MoviesAdapter;
+import com.example.movie.Adapter.MoviesAdapterFailure;
 import com.example.movie.Adapter.MoviesRepository;
 import com.example.movie.BuildConfig;
 import com.example.movie.Database.DatabaseHelper;
@@ -40,6 +41,7 @@ public class HomeFragment extends Fragment {
 
     private RecyclerView recyclerView;
     MoviesAdapter adapter;
+    MoviesAdapterFailure failureadapter;
     private MoviesRepository moviesRepository;
 
     public HomeFragment() {
@@ -63,26 +65,31 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        //movies from the moviedb
         moviesRepository = MoviesRepository.getInstance();
-        Log.d("FOS","fos" + moviesRepository);
         moviesRepository.getMovies(new OnGetMoviesCallBack() {
             @Override
             public void onSuccess(List<Movie> movies) {
-                Log.d("FOS","fosSiker" );
+
                 adapter = new MoviesAdapter(movies);
                 recyclerView.setAdapter(adapter);
             }
 
             @Override
             public void onError() {
+               // failureadapter = new MoviesAdapterFailure();
+                //recyclerView.setAdapter(failureadapter);
                 Toast.makeText(getContext(), "Please check your internet connection.", Toast.LENGTH_SHORT).show();
-                Log.d("FOS","fosFos" );
+
             }
         });
 
+      //  failureadapter = new MoviesAdapterFailure();
+        //recyclerView.setAdapter(failureadapter);
 
 
 
+        //the menu bar
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.action_home);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

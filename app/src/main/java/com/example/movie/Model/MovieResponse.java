@@ -8,7 +8,7 @@ import java.util.List;
 import javax.xml.transform.Result;
 
 public class MovieResponse {
-
+ // movie respone model from JSON
 
     @SerializedName("page")
     @Expose

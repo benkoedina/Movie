@@ -26,6 +26,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class RegisterFragment extends Fragment {
 
+    // register
+
     private static final int RESULT_LOAD_IMAGE=1;
     private static String path;
     ImageView image;
@@ -50,9 +52,11 @@ public class RegisterFragment extends Fragment {
         Button bt_register = view.findViewById(R.id.bt_register);
         Button bt_upload = view.findViewById(R.id.bt_upload);
 
+        //db connection
         db = new DatabaseHelper(getContext());
         final  List<User> allUsers = db.getAllUsers();
 
+        //photo upload button
         bt_upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,9 +68,12 @@ public class RegisterFragment extends Fragment {
             }
         });
 
+        // register button
         bt_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //checking the input
                 if(et_username.getText().toString().isEmpty() || et_password.getText().toString().isEmpty())
                 {
                     Toast.makeText(getContext(),"Fileds cannot be empty",Toast.LENGTH_SHORT).show();
@@ -76,9 +83,11 @@ public class RegisterFragment extends Fragment {
                     String username = et_username.getText().toString();
                     String password = et_password.getText().toString();
 
+                    //insert to the db
                     User user = new User(checkMaxId(allUsers)+1,username,password,path);
                     db.createUser(user);
 
+                    //change to the login fragment
                     LoginFragment loginFragment = new LoginFragment();
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     ft.replace(R.id.container,loginFragment);

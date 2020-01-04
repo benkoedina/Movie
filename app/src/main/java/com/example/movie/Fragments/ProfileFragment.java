@@ -33,6 +33,8 @@ import androidx.fragment.app.FragmentTransaction;
 import static android.app.Activity.RESULT_OK;
 
 public class ProfileFragment extends Fragment {
+
+    // profile fragment
     DatabaseHelper db;
     ImageView image;
     private  static String path;
@@ -60,25 +62,31 @@ public class ProfileFragment extends Fragment {
         String photoPath;
         db = new DatabaseHelper(getContext());
 
-
+        //here we get the id of the user
         Bundle bundle = this.getArguments();
         final int id= bundle.getInt("id");
 
 
+        //read the data about the user
         user = db.getUser(id);
 
+        //set the fields with the data
         tv_name.setText(user.getName());
         tv_password.setText(user.getPassword());
 
+        //setting the image
         photoPath = user.getImage_path();
         Log.d("path1", photoPath+"0");
         Uri uri = Uri.parse(photoPath);
         image.setImageURI(uri);
 
+        //modify the password button
         bt_modifyPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final View viewDialog = LayoutInflater.from(getContext()).inflate(R.layout.alert_layout, null);
+
+                //the new password implementation with Alert Dialog
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setView(viewDialog);
                 builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
@@ -87,6 +95,7 @@ public class ProfileFragment extends Fragment {
                         EditText et_pw = viewDialog.findViewById(R.id.newPassword);
 
                         user.setPassword(et_pw.getText().toString());
+                        //update the password in the db
                         db.updateUserPassword(user);
                         tv_password.setText(et_pw.getText().toString());
                     }
@@ -98,6 +107,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        // modify the profile picture
         bt_modifyPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,6 +116,8 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+        //the menu bar
         BottomNavigationView bottomNavigationView = view.findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.action_profile);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -141,6 +153,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    //photo
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

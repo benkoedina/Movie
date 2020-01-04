@@ -18,6 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 public class LoginFragment extends Fragment {
+
+    //Login
+
     DatabaseHelper db;
     public LoginFragment(){}
 
@@ -36,10 +39,12 @@ public class LoginFragment extends Fragment {
         Button bt_login = view.findViewById(R.id.bt_login);
         Button bt_register = view.findViewById(R.id.bt_register);
 
+        //button for login
         bt_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                //checking the input
                 if(et_name.getText().toString().isEmpty() || et_password.getText().toString().isEmpty())
                 {
                     Toast.makeText(getContext(),"Fileds cannot be empty",Toast.LENGTH_SHORT).show();
@@ -49,6 +54,7 @@ public class LoginFragment extends Fragment {
                     String username = et_name.getText().toString();
                     String password = et_password.getText().toString();
 
+                    //checking if the user is registered
                     final List<User> userList = db.getAllUsers();
                     int b = 0;
                    int id=-1;
@@ -64,8 +70,11 @@ public class LoginFragment extends Fragment {
 
                     if (b == 1)
                     {
+                        //if it is registered passing the id to the next fragment
                         Bundle bundle = new Bundle();
                         bundle.putInt("id",id);
+
+                        //fragment change
                         HomeFragment homeFragment = new HomeFragment();
                         homeFragment.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -75,6 +84,7 @@ public class LoginFragment extends Fragment {
                     }
                     else
                     {
+                        // if the user is not registered
                         Toast.makeText(getContext(),"User not registered",Toast.LENGTH_SHORT).show();
                     }
 
@@ -83,9 +93,12 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        //register button functionality
         bt_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //change to the register fragment
                 RegisterFragment registerFragment = new RegisterFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.container,registerFragment);

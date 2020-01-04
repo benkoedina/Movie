@@ -31,6 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_USER = "CREATE TABLE "
             + TABLE_USER + "(" + USER_ID + " INTEGER PRIMARY KEY," + USER_USERNAME
             + " TEXT," + USER_PW + " TEXT," + USER_PHOTO + " TEXT" +")";
+
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }

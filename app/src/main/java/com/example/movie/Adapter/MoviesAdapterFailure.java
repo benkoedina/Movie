@@ -21,7 +21,7 @@ public class MoviesAdapterFailure extends RecyclerView.Adapter<MoviesAdapterFail
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-        
+
     }
 
     @Override
